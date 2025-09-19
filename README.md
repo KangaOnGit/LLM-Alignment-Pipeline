@@ -1,2 +1,5 @@
 # Reinforcement-Learning-Preference-Tuning
-RLHF, PPO/DPO, PT
+
+- Clone the whole repository
+
+You can run whatever you want since they're pretty fragmented.
