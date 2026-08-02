@@ -1,0 +1,26 @@
+default:
+  model: "thainq107/Llama-3.2-1B-Instruct-sft"
+  
+cache:
+  path: "./cache"
+
+train:
+  batch_size: 16
+  steps: 8
+  checkpoint: true
+  lr: 3e-5
+  log_steps: 200
+  epochs: 2
+  save: "no"
+  overwrite_output_dir: true
+  optim: paged_adamw_8bit
+  warmup_steps: 200
+  bf16: true
+  max_length: 512
+
+output:
+  path_sft: "Llama-3.2-1B-Instruct-sft"
+  path_dpo: "Llama-3.2-1B-Instruct-dpo"
+
+data:
+  path: "thainq107/Vi-Alpaca-Preference"
