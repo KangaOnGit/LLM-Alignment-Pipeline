@@ -1,6 +1,6 @@
 from datasets import Dataset
 from transformers import PreTrainedModel, PreTrainedTokenizerBase
-from trl import GRPOConfig, GRPOTrainer
+from trl import GRPOTrainer, GRPOConfig
 from typing import Callable
 
 from src.utils.config import load_config
