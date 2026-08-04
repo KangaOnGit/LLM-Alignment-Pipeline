@@ -6,7 +6,7 @@ The implementation focuses on reproducible LLM engineering workflows, including 
 
 ## Highlights
 
-- End-to-end LLM alignment pipeline implementing SFT, DPO, and GRPO workflows with PPO components
+- Modular LLM alignment framework supporting SFT, DPO, and GRPO workflows with reusable PPO components.
 - Parameter-efficient fine-tuning using LoRA, QLoRA, and PEFT
 - Dataset preprocessing utilities for instruction, preference, and reasoning tasks
 - YAML-based configuration system for reproducible experiments
