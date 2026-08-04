@@ -26,15 +26,4 @@ def build_fast_model(
         gpu_memory_utilization=0.8,
     )
     
-    model = FastLanguageModel.get_peft_model(
-        model,
-        r=lora_rank,  
-        target_modules=[
-            "q_proj", "v_proj"
-        ],  
-        lora_alpha=lora_rank,
-        use_gradient_checkpointing="unsloth",
-        random_state=3407,
-    )
-    
     return model, tokenizer
