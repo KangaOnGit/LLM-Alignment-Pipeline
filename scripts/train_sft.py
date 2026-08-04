@@ -7,6 +7,7 @@ from datasets import load_dataset
 from src.models.huggingface import build_model
 from src.peft.config import get_lora_config
 from src.sft.trainer import build_sft_trainer
+from src.sft.formatting import convert_to_conversational_sft_format
 
 from src.utils.config import load_config
 from src.utils.hub import push_hub
@@ -83,6 +84,7 @@ def main() -> None:
 
         log.info("Loading dataset: %s", args.dataset)
         dataset = load_dataset(args.dataset)
+        dataset = dataset.map(convert_to_conversational_sft_format)
 
         log.info("Building LoRA configuration...")
         peft_config = get_lora_config()
@@ -97,9 +99,12 @@ def main() -> None:
 
         log.info("Starting training...")
         trainer.train()
-
+        
         log.info("Training complete.")
 
+        model.save_pretrained(CONFIG_SFT["output"]["dir"])
+        tokenizer.save_pretrained(CONFIG_SFT["output"]["dir"])
+        
         push_hub(
             name=args.run_name,
             trainer=trainer,

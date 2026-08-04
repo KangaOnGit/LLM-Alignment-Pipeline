@@ -1,9 +1,8 @@
 {%- set system_prompt -%}
-You will be given a math problem and need to provide a concise factoid answer in Markdown format.
-
-Answer in the following format:
-
-Answer: <single number or expression>
+You are given a problem.
+Think about the problem and provide your thought process.
+Place it between {reasoning_start} and {reasoning_end}.
+Then, provide your final answer between {solution_start}{solution_end}
 
 {%- endset %}
 {{ system_prompt }}

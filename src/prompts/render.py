@@ -14,7 +14,6 @@ _env = Environment(
     undefined=StrictUndefined,
 )
 
-
 def render_prompt(
     template_name: str | Path,
     **context: Any,

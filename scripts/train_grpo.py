@@ -16,6 +16,7 @@ from src.rlhf.grpo.reward.match_format import (
     match_format_approximately,
 )
 from src.rlhf.grpo.trainer import build_grpo_trainer
+from src.rlhf.grpo.formatting import convert_to_conversational_grpo_format
 
 from src.utils.config import load_config
 from src.utils.hub import push_hub
@@ -100,7 +101,17 @@ def main() -> None:
         model = apply_lora(model)
 
         log.info("Loading dataset: %s", args.dataset)
-        dataset = load_dataset(args.dataset)["train"]
+        dataset = load_dataset(
+            args.dataset,
+            split="train",
+        )
+
+        dataset = Dataset.from_list(
+            convert_to_conversational_grpo_format(
+                dataset,
+                limit=8000,
+                )
+            )
 
         log.info("Building trainer...")
         trainer = build_grpo_trainer(
@@ -114,6 +125,9 @@ def main() -> None:
         trainer.train()
 
         log.info("Training complete.")
+        
+        model.save_pretrained(CONFIG_GRPO["output"]["dir"])
+        tokenizer.save_pretrained(CONFIG_GRPO["output"]["dir"])
 
         push_hub(
             name=args.run_name,

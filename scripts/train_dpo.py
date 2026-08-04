@@ -6,7 +6,7 @@ from datasets import load_dataset
 
 from src.models.huggingface import build_model
 from src.peft.config import get_lora_config
-from src.rlhf.dpo.formatting import convert_to_conversational_preference_format
+from src.rlhf.dpo.formatting import convert_to_conversational_dpo_format
 from src.rlhf.dpo.trainer import build_dpo_trainer
 
 from src.utils.config import load_config
@@ -84,7 +84,7 @@ def main() -> None:
 
         log.info("Loading dataset: %s", args.dataset)
         dataset = load_dataset(args.dataset)
-        dataset = dataset.map(convert_to_conversational_preference_format)
+        dataset = dataset.map(convert_to_conversational_dpo_format)
 
         log.info("Building LoRA configuration...")
         peft_config = get_lora_config()
@@ -99,8 +99,11 @@ def main() -> None:
 
         log.info("Starting training...")
         trainer.train()
-
+        
         log.info("Training complete.")
+        
+        model.save_pretrained(CONFIG_DPO["output"]["dir"])
+        tokenizer.save_pretrained(CONFIG_DPO["output"]["dir"])
 
         push_hub(
             name=args.run_name,

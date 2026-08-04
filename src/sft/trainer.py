@@ -54,5 +54,4 @@ def build_sft_trainer(
         train_dataset=dataset["train"],
         peft_config=peft_config,
         args=get_sft_config(**config_overrides),
-        formatting_func=formatting_prompt_with_chat_template,
     )

@@ -3,7 +3,6 @@ from peft import LoraConfig
 from transformers import PreTrainedModel, PreTrainedTokenizerBase
 from trl import DPOConfig, DPOTrainer
 
-from src.rlhf.dpo.formatting import formatting_prompt_with_chat_template
 from src.utils.config import load_config
 
 CONFIG = load_config("configs/rlhf/dpo.yaml")
@@ -63,5 +62,4 @@ def build_dpo_trainer(
         train_dataset=dataset["train"],
         peft_config=peft_config,
         args=get_dpo_config(**config_overrides),
-        formatting_func=formatting_prompt_with_chat_template,
     )
