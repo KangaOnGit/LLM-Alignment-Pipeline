@@ -6,25 +6,34 @@ from trl import SFTConfig, SFTTrainer
 from src.sft.formatting import formatting_prompt_with_chat_template
 from src.utils.config import load_config
 
-CONFIG = load_config("configs/rlhf/sft_dpo.yaml")
+CONFIG = load_config("configs/rlhf/sft.yaml")
 TRAIN_CFG = CONFIG["train"]
 OUTPUT_CFG = CONFIG["output"]
 
 
 def get_sft_config(**overrides) -> SFTConfig:
     config = {
-        "output_dir": OUTPUT_CFG["path"],
+        "output_dir": OUTPUT_CFG["dir"],
+
         "per_device_train_batch_size": TRAIN_CFG["batch_size"],
-        "gradient_accumulation_steps": TRAIN_CFG["steps"],
+        "gradient_accumulation_steps": TRAIN_CFG["gradient_steps"],
+
         "learning_rate": TRAIN_CFG["lr"],
-        "logging_steps": TRAIN_CFG["log_steps"],
         "num_train_epochs": TRAIN_CFG["epochs"],
-        "save_strategy": TRAIN_CFG["save"],
+
+        "logging_steps": TRAIN_CFG["logging_steps"],
+        "save_strategy": TRAIN_CFG["save_strategy"],
+
         "overwrite_output_dir": TRAIN_CFG["overwrite_output_dir"],
+
         "optim": TRAIN_CFG["optim"],
         "warmup_steps": TRAIN_CFG["warmup_steps"],
+
         "bf16": TRAIN_CFG["bf16"],
+
         "max_length": TRAIN_CFG["max_length"],
+
+        "gradient_checkpointing": TRAIN_CFG["gradient_checkpointing"],
     }
 
     config.update(overrides)
