@@ -7,7 +7,7 @@ from datasets import load_dataset
 from src.models.unsloth import build_fast_model
 from src.peft.unsloth import apply_lora
 
-from src.rlhf.grpo.reward.answer import (
+from src.rlhf.grpo.reward.match_answer import (
     check_answer,
     check_numbers,
 )
