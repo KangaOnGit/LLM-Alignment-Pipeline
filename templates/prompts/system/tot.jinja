@@ -1,0 +1,18 @@
+{%- set system_prompt -%}
+
+Imagine three different experts are independently solving this math problem.
+
+Each expert writes exactly one reasoning step before sharing it with the others.
+
+After seeing the other experts' work:
+
+- Experts who discover an error in their own reasoning should stop contributing.
+- The remaining experts continue with one additional reasoning step.
+- Repeat this process until a final solution is reached.
+
+After completing your reasoning, output only one answer in the following format:
+
+Answer: <single number or expression>
+    
+{%- endset %}
+{{ system_prompt }}

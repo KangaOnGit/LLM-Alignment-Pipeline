@@ -3,18 +3,21 @@ import logging
 
 import wandb
 
-from src.sft.datasets import load_dataset
-from src.utils.common.build_model import build_model, build_tokenizer
+from datasets import load_dataset
+from src.models.huggingface import build_model
 from src.sft.trainer import build_sft_trainer
-from src.utils.config import HF_TOKEN, load_config, push_hub, get_qlora_config
+from src.utils.config import HF_TOKEN, load_config, push_hub, get_lora_config
+
+from src.utils.seed import set_seed
+
+set_seed(42)
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
 
-CONFIG_SFT = load_config("configs/sft.yaml")
-CONFIG_QLORA = load_config("configs/qlora.yaml")
+CONFIG_SFT = load_config("configs/rlhf/sft_dpo.yaml")
 
 log = logging.getLogger(__name__)
 
@@ -29,13 +32,6 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default=CONFIG_SFT["default"]["model"],
         help="Model name for SFT.",
-    )
-    
-    parser.add_argument(
-        "--config",
-        type=str,
-        default="configs/sft.yaml",
-        help="Path to the SFT configuration file.",
     )
 
     parser.add_argument(
@@ -55,8 +51,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dataset",
         type=str,
-        default=CONFIG_SFT["data"]["path_sft"],
-        help="Weights & Biases run name.",
+        default=CONFIG_SFT["data"]["path"],
+        help="Link to Dataset (HuggingFace).",
     )
 
     return parser.parse_args()
@@ -65,30 +61,19 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    config = load_config(args.config)
-
     wandb.init(
         project=args.project,
         name=args.run_name,
-        config=config,
+        config=CONFIG_SFT,
     )
 
-    model = build_model(args.model)
-
-    tokenizer = build_tokenizer(args.model)
+    model, tokenizer = build_model(args.model)
 
     log.info("Loading dataset: %s", args.dataset)
     dataset = load_dataset(args.dataset)
-
+    
     log.info("Building LoRA configuration...")
-    peft_config = get_qlora_config(
-        r=CONFIG_QLORA["default"]["r"],
-        lora_alpha=CONFIG_QLORA["default"]["alpha"],
-        lora_dropout=CONFIG_QLORA["default"]["dropout"],
-        bias=CONFIG_QLORA["default"]["bias"],
-        task_type=CONFIG_QLORA["default"]["task_type"],
-        target_modules=CONFIG_QLORA["target_modules"]
-    )
+    peft_config = get_lora_config()
 
     log.info("Building trainer...")
     trainer = build_sft_trainer(

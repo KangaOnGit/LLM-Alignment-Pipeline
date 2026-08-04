@@ -6,7 +6,7 @@ from trl import SFTConfig, SFTTrainer
 from src.sft.formatting import formatting_prompt_with_chat_template
 from src.utils.config import load_config
 
-CONFIG = load_config("configs/sft.yaml")
+CONFIG = load_config("configs/rlhf/sft_dpo.yaml")
 TRAIN_CFG = CONFIG["train"]
 OUTPUT_CFG = CONFIG["output"]
 

@@ -1,0 +1,33 @@
+default:
+  model: "meta-llama/Llama-3.2-3B-Instruct"
+  
+cache:
+  path: "./cache"
+
+format:
+  reasoning_start: "<thinking>"
+  reasoning_end: "</thinking>"
+  solution_start: "<answer>"
+  solution_end: "</answer>"
+
+train:
+  lr: 5e-6
+  weight_decay: 5e-4
+  warmup_ratio: 0.1
+  lr_scheduler: "cosine"
+  optim: "adamw_torch_fused"
+  logging_steps: 1
+  batch_size: 8
+  gradient_steps: 64
+  num_generations: 8
+  epochs: 1
+  max_steps: -1
+  save_steps: 20
+  max_grad_norm: 0.1
+  report_to: "wandb"
+
+output:
+  path: "grpo_lora"
+
+data:
+  path: "5CD-AI/Vietnamese-meta-math-MetaMathQA-40K-gg-translated"
