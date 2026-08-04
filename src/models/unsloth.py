@@ -21,7 +21,7 @@ def build_fast_model(
         model_name=model_name,
         max_seq_length=max_seq_length,
         load_in_4bit=False,
-        fast_inference=True,
+        fast_inference=False,
         max_lora_rank=lora_rank,
         gpu_memory_utilization=0.8,
     )
