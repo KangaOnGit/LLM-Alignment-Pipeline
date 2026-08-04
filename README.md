@@ -78,7 +78,7 @@ prompt
 → reward evaluation
 → policy update
 
-## Proximal Policy Optimization (PPO)
+### Proximal Policy Optimization (PPO)
 
 Provides PPO building blocks for reinforcement learning-based language model alignment.
 
