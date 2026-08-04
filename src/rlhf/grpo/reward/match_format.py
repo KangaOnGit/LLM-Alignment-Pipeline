@@ -2,7 +2,6 @@ import re
 import logging
 
 from src.utils.config import load_config
-from src.rlhf.grpo.reward.match_format import match_format
 
 log = logging.getLogger(__name__)
 
