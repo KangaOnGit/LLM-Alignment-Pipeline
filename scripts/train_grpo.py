@@ -106,7 +106,7 @@ def main() -> None:
             split="train",
         )
 
-        dataset = Dataset.from_list(
+        dataset = dataset.from_list(
             convert_to_conversational_grpo_format(
                 dataset,
                 limit=8000,
