@@ -11,7 +11,6 @@ TRAIN_CFG = CONFIG["train"]
 GEN_CFG = CONFIG["generation"]
 OUTPUT_CFG = CONFIG["output"]
 
-
 def get_grpo_config(**overrides) -> GRPOConfig:
     config = {
         "output_dir": OUTPUT_CFG["dir"],
